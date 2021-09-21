@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/widgets/tasks_list.dart';
+
+import 'add_tasks_screen.dart';
 
 class TasksScreen extends StatelessWidget {
-  const TasksScreen({Key? key}) : super(key: key);
+  Widget buildBottomSheet(BuildContext context) {
+    return SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: AddTasksScreen(),
+        ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +21,16 @@ class TasksScreen extends StatelessWidget {
         backgroundColor: Colors.lightBlueAccent,
         child: Icon(Icons.add),
         onPressed: () {
-
-        },),
+          //bottom plus buttom
+          showModalBottomSheet(
+              context: context,
+              //Setting the isScrolledControlled property to true
+              // you can make the modal take up the full screen
+              isScrollControlled: true,
+              builder: buildBottomSheet
+          );
+        },
+      ),
       // SafeArea used so that it could take space
       // upper the phone header. i.e: time,battery...
       body: Column(
@@ -58,6 +76,8 @@ class TasksScreen extends StatelessWidget {
           ),
           Expanded(
             child: Container(
+              // padding for checkbox elements
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -65,7 +85,7 @@ class TasksScreen extends StatelessWidget {
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              child: null,
+              child: TasksList(),
             ),
           ),
         ],
